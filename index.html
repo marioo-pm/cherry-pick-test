@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McEasy Fleet Management</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; display: flex; height: 100vh;">
+    <nav style="width: 200px; background-color: #f0f0f0; padding: 20px; border-right: 1px solid #ccc;">
+        <h2 style="margin-top: 0; color: #333;">McEasy</h2>
+        <ul style="list-style-type: none; padding: 0;">
+            <li style="margin-bottom: 10px;"><a href="#" style="text-decoration: none; color: #333;">Dashboard</a></li>
+            <li style="margin-bottom: 10px;"><a href="#" style="text-decoration: none; color: #333;">Live View</a></li>
+            <li style="margin-bottom: 10px;"><a href="#" style="text-decoration: none; color: #333;">Control Tower</a></li>
+            <li style="margin-bottom: 10px;"><a href="#" style="text-decoration: none; color: #333;">Notifikasi</a></li>
+            <li style="margin-bottom: 10px;"><a href="#" style="text-decoration: none; color: #333;">Laporan</a></li>
+            <li style="margin-bottom: 10px;"><a href="#" style="text-decoration: none; color: #333;">Manajemen Pengiriman</a></li>
+            <li style="margin-bottom: 10px;"><a href="#" style="text-decoration: none; color: #333;">Manajemen Biaya</a></li>
+            <li style="margin-bottom: 10px;"><a href="#" style="text-decoration: none; color: #333;">Manajemen Armada</a></li>
+        </ul>
+    </nav>
+    <main style="flex-grow: 1; display: flex; flex-direction: column;">
+        <header style="background-color: #fff; padding: 10px; border-bottom: 1px solid #ccc;">
+            <input type="text" placeholder="Search..." style="padding: 5px; border: 1px solid #ccc; border-radius: 3px;">
+        </header>
+        <div style="display: flex; flex-grow: 1;">
+            <div style="width: 300px; padding: 20px; border-right: 1px solid #ccc; overflow-y: auto;">
+                <h3>Tujuan</h3>
+                <input type="text" placeholder="JI. Cempaka Raya RT 5/RW 9" style="width: 100%; padding: 5px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 3px;">
+                <button style="background-color: #007bff; color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">+ Tambah Tujuan</button>
+                <h3>Daftar Kendaraan Tersedia</h3>
+                <input type="text" placeholder="Cari plat nomor atau jenis kendaraan" style="width: 100%; padding: 5px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 3px;">
+                <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                    <h4 style="margin: 0;">B 1234 MEP</h4>
+                    <p style="margin: 5px 0;">Komplek Pergudangan Karang Bima Blok ABC No. 123, Jalan Rawa Sumur, Jakarta Timur, DKI</p>
+                    <button style="background-color: #007bff; color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Tugaskan</button>
+                </div>
+                <!-- Add more vehicle entries as needed -->
+            </div>
+            <div style="flex-grow: 1; background-color: #e0e0e0; position: relative;">
+                <!-- Placeholder for the map -->
+                <div style="position: absolute; top: 10px; right: 10px; background-color: #fff; padding: 5px; border-radius: 3px;">
+                    <button style="background: none; border: none; cursor: pointer;">+</button>
+                    <button style="background: none; border: none; cursor: pointer;">-</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

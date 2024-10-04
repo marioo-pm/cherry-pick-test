@@ -49,8 +49,8 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: ${{ env.TARGET_BRANCH }}    # The branch where the cherry-picked commit will be merged (extracted from label)
-          head: $NEW_BRANCH                 # The new branch with the cherry-picked commit
+          base: ${{ env.TARGET_BRANCH }}  # The branch where the cherry-picked commit will be merged (extracted from label)
+          branch: $NEW_BRANCH             # The new branch with the cherry-picked commit
           title: "Cherry-pick from PR #${{ github.event.pull_request.number }} to ${{ env.TARGET_BRANCH }}"
           body: "This pull request cherry-picks the commit from PR #${{ github.event.pull_request.number }} to the branch ${{ env.TARGET_BRANCH }}."
           draft: false

@@ -7,7 +7,7 @@ on:
 jobs:
   cherry-pick:
     runs-on: ubuntu-latest
-    if: contains(github.event.label.name, 'cherry-pick')  # Only run when the 'cherry-pick' label is applied
+    if: startsWith(github.event.label.name, 'cherry-pick to')  # Run only if the label starts with 'cherry-pick to'
 
     steps:
       - name: Checkout the repository
@@ -18,33 +18,39 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Extract target branch from label
+        id: extract
+        run: |
+          # Extract the target branch from the label, e.g., 'cherry-pick to staging' -> 'staging'
+          echo "TARGET_BRANCH=$(echo '${{ github.event.label.name }}' | sed 's/^cherry-pick to //')" >> $GITHUB_ENV
+          echo "Current branch is ${{ github.head_ref }}"
+
       - name: Fetch all branches
         run: git fetch --all
 
-      - name: Create a new branch for cherry-pick
-        run: |
-          # Define the target branch and new branch name
-          TARGET_BRANCH="target-branch"
-          NEW_BRANCH="cherry-pick-${{ github.event.pull_request.number }}-$(date +%s)"  # Unique branch name
+      # - name: Create a new branch for cherry-pick
+      #   run: |
+      #     # Use the extracted target branch and the current PR branch as the head branch
+      #     NEW_BRANCH="cherry-pick-${{ github.event.pull_request.head.ref }}-to-${{ env.TARGET_BRANCH }}-$(date +%s)"  # Unique branch name
 
-          # Checkout the target branch and create a new branch
-          git checkout $TARGET_BRANCH
-          git checkout -b $NEW_BRANCH
+      #     # Checkout the target branch and create a new branch for cherry-picking
+      #     git checkout ${{ env.TARGET_BRANCH }}
+      #     git checkout -b $NEW_BRANCH
 
-          # Cherry-pick the PR's head commit
-          git cherry-pick ${{ github.event.pull_request.head.sha }}
+      #     # Cherry-pick the current PR's head commit
+      #     git cherry-pick ${{ github.event.pull_request.head.sha }}
 
-      - name: Push the new branch to the remote repository
-        run: |
-          # Push the new branch with the cherry-picked commit
-          git push origin $NEW_BRANCH
+      # - name: Push the new branch to the remote repository
+      #   run: |
+      #     # Push the newly created branch to the repository
+      #     git push origin $NEW_BRANCH
 
       - name: Create a pull request for the cherry-picked commit
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: $TARGET_BRANCH          # The branch where the cherry-pick commit will be merged (target branch)
-          head: $NEW_BRANCH             # The branch with the cherry-picked commit
-          title: "Cherry-pick from PR #${{ github.event.pull_request.number }}"
-          body: "This pull request cherry-picks commit from PR #${{ github.event.pull_request.number }} to branch $TARGET_BRANCH."
-          draft: false                  # Create a regular PR (not a draft)
+          base: ${{ env.TARGET_BRANCH }}    # The branch where the cherry-picked commit will be merged (extracted from label)
+          head: $NEW_BRANCH                 # The new branch with the cherry-picked commit
+          title: "Cherry-pick from PR #${{ github.event.pull_request.number }} to ${{ env.TARGET_BRANCH }}"
+          body: "This pull request cherry-picks the commit from PR #${{ github.event.pull_request.number }} to the branch ${{ env.TARGET_BRANCH }}."
+          draft: false
